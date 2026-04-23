@@ -3,9 +3,8 @@ import { weatherService } from "../services/weather.service";
 
 const router = Router();
 
-// GET /api/weather?id=6167865
 router.get(
-  "/weather",
+  "/weather/current",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.query;
@@ -23,9 +22,8 @@ router.get(
   },
 );
 
-// GET /api/forecast?id=6167865
 router.get(
-  "/forecast",
+  "/weather/forecast",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.query;

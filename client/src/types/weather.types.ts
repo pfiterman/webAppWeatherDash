@@ -1,40 +1,3 @@
-export interface WeatherData {
-  city: string;
-  temperature: number;
-  description: string;
-  humidity: number;
-  windSpeed: number;
-  icon: string;
-}
-
-export interface ForecastData {
-  date: string;
-  temperature: number;
-  description: string;
-  icon: string;
-}
-
-export interface ApiError {
-  error: string;
-}
-
-export interface FormattedWeather {
-  city: string;
-  temperature: string;
-  description: string;
-  humidity: string;
-  windSpeed: string;
-  iconUrl: string;
-}
-
-export interface FormattedForecast {
-  date: string;
-  temperature: string;
-  description: string;
-  iconUrl: string;
-}
-
-// Keep this interfaces
 export interface WeatherCondition {
   id: number;
   main: string;
@@ -81,7 +44,7 @@ export interface ForecastItem {
   dt_txt: string;
 }
 
-export interface ForecastResponse {
+export interface Forecast {
   list: ForecastItem[];
   city: {
     id: number;
@@ -123,4 +86,17 @@ export interface GeoCity {
   lon: number;
   country: string;
   state?: string;
+}
+
+export interface WeatherState {
+  data: CurrentWeather | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export interface ForecastState {
+  data: Forecast | null;
+  dailyForecasts: DailyForecast[];
+  loading: boolean;
+  error: string | null;
 }

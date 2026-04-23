@@ -1,5 +1,5 @@
 import { Wind, Droplets, ArrowUp, ArrowDown, Thermometer } from "lucide-react";
-import type { DailyForecast, TempUnit } from "@/types/weather";
+import type { DailyForecast, TempUnit } from "@/types/weather.types";
 import { formatTemp, formatWindSpeed, capitalize } from "@/lib/weather-utils";
 import { getWeatherIconUrl } from "@/lib/weather-api";
 
@@ -9,12 +9,19 @@ interface ForecastTableProps {
   selectedDayIndex: number;
 }
 
-export function ForecastTable({ forecasts, unit, selectedDayIndex }: ForecastTableProps) {
+export function ForecastTable({
+  forecasts,
+  unit,
+  selectedDayIndex,
+}: ForecastTableProps) {
   const day = forecasts[selectedDayIndex];
   if (!day) return null;
 
   return (
-    <div className="bg-card border border-card-border rounded-2xl shadow-md overflow-hidden" data-testid="forecast-table">
+    <div
+      className="bg-card border border-card-border rounded-2xl shadow-md overflow-hidden"
+      data-testid="forecast-table"
+    >
       <div className="px-6 py-4 border-b border-border/60">
         <h3 className="text-base font-semibold text-foreground">
           {day.dateLabel} — Hourly Breakdown
@@ -31,10 +38,16 @@ export function ForecastTable({ forecasts, unit, selectedDayIndex }: ForecastTab
               <th className="text-left px-4 py-3 font-medium">Time</th>
               <th className="text-left px-4 py-3 font-medium">Condition</th>
               <th className="text-right px-4 py-3 font-medium">Temp</th>
-              <th className="text-right px-4 py-3 font-medium hidden sm:table-cell">Min</th>
-              <th className="text-right px-4 py-3 font-medium hidden sm:table-cell">Max</th>
+              <th className="text-right px-4 py-3 font-medium hidden sm:table-cell">
+                Min
+              </th>
+              <th className="text-right px-4 py-3 font-medium hidden sm:table-cell">
+                Max
+              </th>
               <th className="text-right px-4 py-3 font-medium">Wind</th>
-              <th className="text-right px-4 py-3 font-medium hidden md:table-cell">Humidity</th>
+              <th className="text-right px-4 py-3 font-medium hidden md:table-cell">
+                Humidity
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/40">
@@ -58,7 +71,11 @@ export function ForecastTable({ forecasts, unit, selectedDayIndex }: ForecastTab
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <img src={iconUrl} alt={condition.description} className="w-8 h-8" />
+                      <img
+                        src={iconUrl}
+                        alt={condition.description}
+                        className="w-8 h-8"
+                      />
                       <span className="text-foreground capitalize hidden sm:block">
                         {capitalize(condition.description)}
                       </span>
@@ -102,15 +119,24 @@ export function ForecastTable({ forecasts, unit, selectedDayIndex }: ForecastTab
         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
           <span className="flex items-center gap-2">
             <ArrowUp className="h-3.5 w-3.5 text-orange-500" />
-            Day high: <strong className="text-foreground">{formatTemp(day.maxTemp, unit)}</strong>
+            Day high:{" "}
+            <strong className="text-foreground">
+              {formatTemp(day.maxTemp, unit)}
+            </strong>
           </span>
           <span className="flex items-center gap-2">
             <ArrowDown className="h-3.5 w-3.5 text-blue-400" />
-            Day low: <strong className="text-foreground">{formatTemp(day.minTemp, unit)}</strong>
+            Day low:{" "}
+            <strong className="text-foreground">
+              {formatTemp(day.minTemp, unit)}
+            </strong>
           </span>
           <span className="flex items-center gap-2">
             <Thermometer className="h-3.5 w-3.5 text-primary" />
-            Avg: <strong className="text-foreground">{formatTemp(day.avgTemp, unit)}</strong>
+            Avg:{" "}
+            <strong className="text-foreground">
+              {formatTemp(day.avgTemp, unit)}
+            </strong>
           </span>
         </div>
       </div>

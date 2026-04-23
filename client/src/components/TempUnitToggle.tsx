@@ -1,4 +1,4 @@
-import type { TempUnit } from "@/types/weather";
+import type { TempUnit } from "@/types/weather.types";
 import { cn } from "@/lib/utils";
 
 interface TempUnitToggleProps {
@@ -20,7 +20,7 @@ export function TempUnitToggle({ unit, onChange }: TempUnitToggleProps) {
           "px-3 py-1.5 rounded-md text-sm font-semibold transition-all duration-200",
           unit === "celsius"
             ? "bg-card text-foreground shadow-sm"
-            : "text-muted-foreground hover:text-foreground"
+            : "text-muted-foreground hover:text-foreground",
         )}
         data-testid="button-celsius"
         aria-pressed={unit === "celsius"}
@@ -33,7 +33,7 @@ export function TempUnitToggle({ unit, onChange }: TempUnitToggleProps) {
           "px-3 py-1.5 rounded-md text-sm font-semibold transition-all duration-200",
           unit === "fahrenheit"
             ? "bg-card text-foreground shadow-sm"
-            : "text-muted-foreground hover:text-foreground"
+            : "text-muted-foreground hover:text-foreground",
         )}
         data-testid="button-fahrenheit"
         aria-pressed={unit === "fahrenheit"}

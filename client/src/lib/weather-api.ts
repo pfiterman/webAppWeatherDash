@@ -1,8 +1,4 @@
-import type {
-  CurrentWeather,
-  ForecastResponse,
-  GeoCity,
-} from "@/types/weather";
+import type { CurrentWeather, Forecast, GeoCity } from "@/types/weather.types";
 
 const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -31,8 +27,8 @@ export async function getCurrentWeather(id: number): Promise<CurrentWeather> {
   return apiFetch<CurrentWeather>(`/weather/current?id=${id}`);
 }
 
-export async function getForecast(id: number): Promise<ForecastResponse> {
-  return apiFetch<ForecastResponse>(`/weather/forecast?id=${id}`);
+export async function getForecast(id: number): Promise<Forecast> {
+  return apiFetch<Forecast>(`/weather/forecast?id=${id}`);
 }
 
 export function getWeatherIconUrl(
