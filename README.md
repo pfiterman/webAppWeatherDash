@@ -1,50 +1,52 @@
 # WeatherDash
 
-A full-stack weather dashboard application built with **React + Vite** (frontend) and **Node.js + Express + TypeScript** (backend), powered by the OpenWeatherMap API.
+A full-stack weather dashboard application built with **React + Vite** for the frontend and **Node.js + Express + TypeScript** for the backend. The app consumes OpenWeatherMap data and serves a responsive weather dashboard with current conditions, forecast details, and temperature toggles.
 
 ---
 
 ## Features
 
-- Real-time current weather conditions
-- 5-day hourly forecast breakdown
-- Multi-city support with persistent last-visited city
-- Temperature unit toggle (Celsius / Fahrenheit)
-- Loading skeletons for smooth UX
-- Error boundaries and retry handling
-- Fully responsive design
+- Current weather for selected cities
+- 5-day weather forecast
+- City selection with persisted last-place state
+- Celsius / Fahrenheit toggle
+- Loading skeletons and error handling
+- Responsive layout for desktop and mobile
 
 ---
 
 ## Project Structure
 
 ```
-weather-app/
-├── client/                   # React + Vite frontend
+webAppWeatherDash/
+├── client/                       # React + Vite frontend
+│   ├── public/                   # Static assets
 │   ├── src/
-│   │   ├── api/              # Raw HTTP fetch layer
-│   │   ├── components/       # UI components
-│   │   │   ├── ui/           # Reusable primitives (ErrorBoundary, Skeletons)
-│   │   │   └── weather/      # Domain components (WeatherCard, ForecastTable)
-│   │   ├── hooks/            # Custom React hooks (useWeatherDashboard)
-│   │   ├── lib/              # Utilities (formatters, storage, API helpers)
-│   │   ├── pages/            # Page-level components
-│   │   ├── types/            # Shared TypeScript interfaces
-│   │   └── config/           # Environment variable validation
-│   ├── .env.development      # Frontend env vars (gitignored)
-│   ├── .env.example          # Env template
+│   │   ├── api/                  # Raw fetch layer for backend calls
+│   │   ├── assets/               # Images, icons, fonts
+│   │   ├── components/
+│   │   │   ├── core/             # Core UI components
+│   │   │   ├── features/         # Feature components
+│   │   │   └── ui/               # Reusable UI primitives
+│   │   ├── config/               # Environment validation
+│   │   ├── hooks/                # Custom React hooks
+│   │   ├── lib/                  # Utility helpers
+│   │   ├── pages/                # Page-level components
+│   │   └── types/                # TypeScript types
+│   ├── .env                     # Frontend environment file (gitignored)
+│   ├── .env.example             # Environment template
+│   ├── package.json
 │   └── vite.config.ts
-│
-├── server/                   # Node.js + Express + TypeScript API
+├── server/                       # Node.js + Express backend
 │   ├── src/
-│   │   ├── config/           # Env validation (fail-fast)
-│   │   ├── routes/           # Express route handlers
-│   │   ├── services/         # Business logic & OpenWeatherMap calls
-│   │   └── middleware/       # Global error handler
-│   ├── .env                  # Server env vars (gitignored)
-│   └── tsconfig.json
-│
-├── .gitignore
+│   │   ├── config/               # Env validation and startup config
+│   │   ├── middleware/           # Error handling middleware
+│   │   ├── routes/               # Express route handlers
+│   │   └── services/             # OpenWeatherMap service logic
+│   ├── .env                     # Server environment file (gitignored)
+│   ├── .env.example             # Environment template
+│   └── package.json
+├── package.json                 # Root workspace scripts
 └── README.md
 ```
 
@@ -52,12 +54,10 @@ weather-app/
 
 ## Prerequisites
 
-Make sure you have the following installed:
-
 | Tool                   | Version                                        |
 | ---------------------- | ---------------------------------------------- |
-| Node.js                | v20.6+                                         |
-| npm                    | v9+                                            |
+| Node.js                | >= 18                                          |
+| npm                    | Latest supported version                       |
 | OpenWeatherMap API Key | [Get one free](https://openweathermap.org/api) |
 
 ---
@@ -71,16 +71,18 @@ git clone https://github.com/pfiterman/webAppWeatherDash.git
 cd webAppWeatherDash
 ```
 
-### 2. Set up the Server
+### 2. Install dependencies
 
 ```bash
-cd server
 npm install
 ```
 
-Create your environment file:
+This installs dependencies for both the `client` and `server` workspaces.
+
+### 3. Configure the backend
 
 ```bash
+cd server
 cp .env.example .env
 ```
 
@@ -92,20 +94,14 @@ OPENWEATHERMAP_API_KEY=your_api_key_here
 OPENWEATHERMAP_BASE_URL=https://api.openweathermap.org/data/2.5
 ```
 
-### 3. Set up the Client
+### 4. Configure the frontend
 
 ```bash
 cd ../client
-npm install
+cp .env.example .env
 ```
 
-Create your environment file:
-
-```bash
-cp .env.example .env.development
-```
-
-Fill in your `.env.development`:
+Fill in your `.env`:
 
 ```env
 VITE_API_BASE_URL=http://localhost:3000
@@ -115,49 +111,49 @@ VITE_API_BASE_URL=http://localhost:3000
 
 ## Running the App
 
-### Run the server
+### Run both server and client together
+
+From the repository root:
+
+```bash
+npm run dev
+```
+
+### Run the server only
 
 ```bash
 cd server
 npm run dev
 ```
 
-Server starts at: `http://localhost:3000`
-
-### Run the client (in a separate terminal)
+### Run the client only
 
 ```bash
 cd client
 npm run dev
-```
-
-Client starts at: `http://localhost:5173`
-
-### Run both simultaneously (from project root)
-
-```bash
-npm install        # installs concurrently at root
-npm run dev        # starts both server and client
 ```
 
 ---
 
-## Building for Production
+## Build and Production
 
-### Build the server
+### Build both workspaces from the root
 
 ```bash
-cd server
-npm run build      # compiles TypeScript → dist/
-npm run start      # runs compiled output
+npm run build
 ```
 
-### Build the client
+### Start the compiled backend from the root
+
+```bash
+npm run start
+```
+
+### Preview the frontend production build
 
 ```bash
 cd client
-npm run build      # outputs to dist/
-npm run preview    # preview the production build locally
+npm run preview
 ```
 
 ---
@@ -170,74 +166,61 @@ npm run preview    # preview the production build locally
 | `GET`  | `/api/weather/current?id={cityId}`  | Current weather by city ID |
 | `GET`  | `/api/weather/forecast?id={cityId}` | 5-day forecast by city ID  |
 
-### Example Requests
+### Example requests
 
 ```bash
-# Health check
-curl http://localhost:3000/health
-
-# Current weather for Toronto (ID: 6167865)
-curl http://localhost:3000/api/weather?id=6167865
-
-# 5-day forecast for Tokyo (ID: 1850147)
-curl http://localhost:3000/api/weather/forecast?id=1850147
+curl "http://localhost:3000/health"
+curl "http://localhost:3000/api/weather/current?id=6167865"
+curl "http://localhost:3000/api/weather/forecast?id=1850147"
 ```
 
 ---
 
-## Tech Stack
+## Available Scripts
 
-### Frontend (`/client`)
+### Root
 
-| Library                                                     | Version | Purpose                            |
-| ----------------------------------------------------------- | ------- | ---------------------------------- |
-| [React](https://react.dev)                                  | ^19     | UI framework                       |
-| [Vite](https://vitejs.dev)                                  | ^6      | Build tool & dev server            |
-| [TypeScript](https://www.typescriptlang.org)                | ^5      | Type safety                        |
-| [Tailwind CSS](https://tailwindcss.com)                     | ^4      | Utility-first styling              |
-| [shadcn/ui](https://ui.shadcn.com)                          | latest  | Accessible UI primitives           |
-| [Radix UI](https://www.radix-ui.com)                        | latest  | Headless component primitives      |
-| [Lucide React](https://lucide.dev)                          | latest  | Icon library                       |
-| [class-variance-authority](https://cva.style)               | latest  | Component variant styling          |
-| [clsx](https://github.com/lukeed/clsx)                      | latest  | Conditional class merging          |
-| [tailwind-merge](https://github.com/dcastil/tailwind-merge) | latest  | Tailwind class conflict resolution |
+| Script          | Description                             |
+| --------------- | --------------------------------------- |
+| `npm install`   | Install all workspace dependencies      |
+| `npm run dev`   | Start the frontend and backend together |
+| `npm run build` | Build both client and server            |
+| `npm run start` | Run the compiled backend                |
 
-### Backend (`/server`)
+### Client
 
-| Library                                      | Version | Purpose                       |
-| -------------------------------------------- | ------- | ----------------------------- |
-| [Node.js](https://nodejs.org)                | v20.6+  | Runtime                       |
-| [Express](https://expressjs.com)             | ^4      | HTTP server framework         |
-| [TypeScript](https://www.typescriptlang.org) | ^5      | Type safety                   |
-| [dotenv](https://github.com/motdotla/dotenv) | ^16     | Environment variable loading  |
-| [cors](https://github.com/expressjs/cors)    | ^2      | Cross-origin resource sharing |
-| [ts-node](https://typestrong.org/ts-node)    | ^10     | TypeScript execution for dev  |
-| [nodemon](https://nodemon.io)                | ^3      | Auto-restart on file changes  |
+| Script            | Description                     |
+| ----------------- | ------------------------------- |
+| `npm run dev`     | Start Vite dev server           |
+| `npm run build`   | Build the client for production |
+| `npm run preview` | Preview the production build    |
+| `npm run lint`    | Run ESLint                      |
+
+### Server
+
+| Script          | Description                        |
+| --------------- | ---------------------------------- |
+| `npm run dev`   | Start the server in development    |
+| `npm run build` | Compile TypeScript to `dist/`      |
+| `npm run start` | Run the compiled production server |
 
 ---
 
-## Architecture
+## Environment Variables
 
-This project follows a **separation of concerns** architecture on both frontend and backend.
+### Server (`server/.env`)
 
-### Frontend Layers
+| Variable                  | Required | Description                   |
+| ------------------------- | -------- | ----------------------------- |
+| `PORT`                    | No       | Server port (default: `3000`) |
+| `OPENWEATHERMAP_API_KEY`  | Yes      | OpenWeatherMap API key        |
+| `OPENWEATHERMAP_BASE_URL` | Yes      | OpenWeatherMap base URL       |
 
-```
-API layer        → /src/api/           Raw fetch calls, throws on failure
-Service layer    → /src/lib/           Data transformation & formatting
-Hook layer       → /src/hooks/         State management, loading/error handling
-Component layer  → /src/components/    Pure UI, receives props only
-Page layer       → /src/pages/         Orchestrates hooks + components
-```
+### Client (`client/.env`)
 
-### Backend Layers
-
-```
-Config           → /src/config/        Env validation, fail-fast on startup
-Routes           → /src/routes/        Thin controllers, HTTP input/output only
-Services         → /src/services/      Business logic, OpenWeatherMap API calls
-Middleware       → /src/middleware/     Global error handling
-```
+| Variable            | Required | Description        |
+| ------------------- | -------- | ------------------ |
+| `VITE_API_BASE_URL` | Yes      | Backend server URL |
 
 ---
 
@@ -253,51 +236,12 @@ To add more cities, update the `CITIES` array in `client/src/hooks/useWeatherDas
 
 ---
 
-## Environment Variables
-
-### Server (`server/.env`)
-
-| Variable                  | Required | Description                   |
-| ------------------------- | -------- | ----------------------------- |
-| `PORT`                    | No       | Server port (default: `3000`) |
-| `OPENWEATHERMAP_API_KEY`  | ✅ Yes   | Your OpenWeatherMap API key   |
-| `OPENWEATHERMAP_BASE_URL` | ✅ Yes   | API base URL                  |
-
-### Client (`client/.env.development`)
-
-| Variable            | Required | Description        |
-| ------------------- | -------- | ------------------ |
-| `VITE_API_BASE_URL` | ✅ Yes   | Backend server URL |
-
----
-
-## Available Scripts
-
-### Server
-
-| Script          | Description                             |
-| --------------- | --------------------------------------- |
-| `npm run dev`   | Start dev server with nodemon + ts-node |
-| `npm run build` | Compile TypeScript to `dist/`           |
-| `npm run start` | Run compiled production build           |
-
-### Client
-
-| Script            | Description                      |
-| ----------------- | -------------------------------- |
-| `npm run dev`     | Start Vite dev server            |
-| `npm run build`   | Build for production             |
-| `npm run preview` | Preview production build locally |
-| `npm run lint`    | Run ESLint                       |
-
----
-
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feat/your-feature`
+2. Create a branch: `git checkout -b feat/your-feature`
 3. Commit your changes: `git commit -m "feat: add your feature"`
-4. Push to the branch: `git push origin feat/your-feature`
+4. Push to your branch: `git push origin feat/your-feature`
 5. Open a Pull Request
 
 ### Commit Convention
