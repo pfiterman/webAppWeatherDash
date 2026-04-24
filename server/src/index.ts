@@ -8,7 +8,11 @@ import { errorHandler } from "./middleware/errorHandler";
 const app = express();
 
 // Middleware
-app.use(cors());
+// No need for CORS in production -> same origin
+if (process.env.NODE_ENV !== "production") {
+  app.use(cors());
+}
+
 app.use(express.json());
 
 // API routes

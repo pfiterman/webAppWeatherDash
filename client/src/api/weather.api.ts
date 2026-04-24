@@ -1,5 +1,5 @@
 import { env } from "../config/env";
-import type { CurrentWeather, ForecastResponse } from "../types/weather.types";
+import type { CurrentWeather, Forecast } from "../types/weather.types";
 
 const get = async <T>(endpoint: string): Promise<T> => {
   const res = await fetch(`${env.apiBaseUrl}${endpoint}`);
@@ -18,8 +18,6 @@ export const weatherApi = {
       `/api/weather/current?id=${encodeURIComponent(cityId)}`,
     ),
 
-  getForecast: (cityId: string): Promise<ForecastResponse[]> =>
-    get<ForecastResponse[]>(
-      `/api/weather/forecast?id=${encodeURIComponent(cityId)}`,
-    ),
+  getForecast: (cityId: string): Promise<Forecast[]> =>
+    get<Forecast[]>(`/api/weather/forecast?id=${encodeURIComponent(cityId)}`),
 };

@@ -1,4 +1,4 @@
-import type { City } from "@/types/weather";
+import type { City } from "@/types/weather.types";
 
 const LAST_CITY_KEY = "weather_last_city";
 

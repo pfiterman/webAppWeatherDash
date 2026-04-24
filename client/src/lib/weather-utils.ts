@@ -1,4 +1,8 @@
-import type { DailyForecast, ForecastItem, TempUnit } from "@/types/weather";
+import type {
+  DailyForecast,
+  ForecastItem,
+  TempUnit,
+} from "@/types/weather.types";
 
 export function celsiusToFahrenheit(c: number): number {
   return (c * 9) / 5 + 32;
@@ -92,7 +96,10 @@ export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function formatTime(unixTs: number, timezoneOffsetSeconds: number): string {
+export function formatTime(
+  unixTs: number,
+  timezoneOffsetSeconds: number,
+): string {
   const utcMs = unixTs * 1000;
   const localMs = utcMs + timezoneOffsetSeconds * 1000;
   const d = new Date(localMs);
