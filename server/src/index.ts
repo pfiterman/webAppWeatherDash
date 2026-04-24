@@ -8,7 +8,6 @@ import { errorHandler } from "./middleware/errorHandler";
 const app = express();
 
 // Middleware
-// No need for CORS in production -> same origin
 if (process.env.NODE_ENV !== "production") {
   app.use(cors());
 }
@@ -21,19 +20,25 @@ app.use("/api", weatherRoutes);
 // Health check
 app.get("/health", (_, res) => res.json({ status: "ok" }));
 
-// Serve frontend ONLY in production
+// ===============================
+// Serve frontend in production
+// ===============================
 if (process.env.NODE_ENV === "production") {
   const clientPath = path.join(__dirname, "client");
+  const indexPath = path.join(clientPath, "index.html");
 
   app.use(express.static(clientPath));
 
-  // SPA fallback (React Router / Wouter)
-  app.get("*", (_, res) => {
-    res.sendFile(path.join(clientPath, "index.html"));
+  app.use((req, res, next) => {
+    if (req.path.startsWith("/api")) return next();
+    res.sendFile(indexPath);
   });
 }
+
+// Error handler
 app.use(errorHandler);
 
+// Dynamically port
 const PORT = process.env.PORT || env.port;
 
 app.listen(PORT, () => {
