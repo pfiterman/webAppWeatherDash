@@ -271,7 +271,7 @@ To add more cities, update the `CITIES` array in `client/src/hooks/useWeatherDas
 
 ---
 
-## 📜 Available Scripts
+## Available Scripts
 
 ### Server
 

@@ -154,7 +154,7 @@ export function WeatherDashboard() {
           <div className="flex items-center gap-2 shrink-0">
             <CloudSun className="h-6 w-6 text-primary" />
             <span className="font-bold text-foreground text-lg hidden sm:block">
-              WeatherForecast
+              WeatherDash
             </span>
           </div>
 
