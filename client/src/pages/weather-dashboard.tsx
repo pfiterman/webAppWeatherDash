@@ -3,7 +3,7 @@ import { CurrentWeatherCard } from "@/components/features/weather/current-weathe
 
 import { TempUnitToggle } from "@/components/features/dashboard/temp-unit-toggle";
 import { CurrentWeatherSkeleton } from "@/components/features/dashboard/loading-skeleton";
-import { useWeatherDashboard, CITIES } from "@/hooks/useWeatherDashboard";
+import { useWeatherDashboard, CITIES } from "@/hooks/use-weather-dashboard";
 import { Spinner } from "@/components/ui/spinner";
 
 import WeatherError from "@/components/features/weather/weather-error";

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { env } from "./config/env";
 import weatherRoutes from "./routes/weather.routes";
 import { errorHandler } from "./middleware/errorHandler";
@@ -10,15 +11,27 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api/", weatherRoutes);
+// API routes
+app.use("/api", weatherRoutes);
 
 // Health check
 app.get("/health", (_, res) => res.json({ status: "ok" }));
 
-// Global error handler (must be last)
+// Serve frontend ONLY in production
+if (process.env.NODE_ENV === "production") {
+  const clientPath = path.join(__dirname, "client");
+
+  app.use(express.static(clientPath));
+
+  // SPA fallback (React Router / Wouter)
+  app.get("*", (_, res) => {
+    res.sendFile(path.join(clientPath, "index.html"));
+  });
+}
 app.use(errorHandler);
 
-app.listen(env.port, () => {
-  console.log(`Server running on http://localhost:${env.port}`);
+const PORT = process.env.PORT || env.port;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
